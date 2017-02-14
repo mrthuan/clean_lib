@@ -16,7 +16,7 @@ import java.util.Date;
 
 import io.mon.noticationbox.R;
 import io.mon.noticationbox.activity.NoticationActivity;
-import io.mon.noticationbox.service.NotificationListenerService;
+import io.mon.noticationbox.service.NLService;
 
 /**
  * Created by Son on 2/10/2017.
@@ -35,7 +35,7 @@ public class NotificationB {
                 .setAutoCancel(false)
                 .setOngoing(true)
                 .setContentTitle(context.getString(R.string.app_name))
-                .setContentText((context.getString(R.string.youhave)) + " " + String.valueOf(NotificationListenerService.getArray().size()) + " " + (context.getString(R.string.str_notiboxx)))
+                .setContentText((context.getString(R.string.youhave)) + " " + String.valueOf(NLService.getArray().size()) + " " + (context.getString(R.string.str_notiboxx)))
                 .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
                 .setContentIntent(contentIntent);
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -49,7 +49,7 @@ public class NotificationB {
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.layout_notication);
         Intent settingIntent = new Intent(context, NoticationActivity.class);
         contentView.setOnClickPendingIntent(R.id.btnSettings, PendingIntent.getActivity(context, 4, settingIntent, 0));
-        contentView.setTextViewText(R.id.tvCount, String.valueOf(NotificationListenerService.getArray().size()));
+        contentView.setTextViewText(R.id.tvCount, String.valueOf(NLService.getArray().size()));
         contentView.setTextViewText(R.id.tvTime, String.valueOf(currentDateandTime));
         contentView.setImageViewResource(R.id.imgIcon, R.drawable.ic_noticationbox);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(

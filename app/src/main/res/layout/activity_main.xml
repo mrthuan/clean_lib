@@ -7,6 +7,7 @@
     tools:context="mon.io.lib.MainActivity">
 
     <io.mon.noticationbox.NotificationBox
+        android:id="@+id/notificationBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

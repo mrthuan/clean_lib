@@ -7,5 +7,7 @@ import android.view.View;
  */
 
 public interface inNotificationBox {
+    void Build();
+    void OnbackPress(View.OnClickListener Onclick);
 
 }

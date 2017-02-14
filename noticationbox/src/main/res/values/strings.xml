@@ -5,4 +5,6 @@
     <string name="youhave">You have</string>
     <string name="str_notibox">No unread notifications</string>
     <string name="str_notiboxtitle">Notification Box</string>
+    <string name="str_onetap">One tap to organize them all</string>
+    <string name="str_active">Active Notification Box now</string>
 </resources>

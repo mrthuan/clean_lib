@@ -6,7 +6,24 @@
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true">
-        <activity android:name=".activity.NoticationActivity"></activity>
+        <activity android:name=".activity.NoticationActivity" android:theme="@style/MyTheme"></activity>
+        <service
+            android:name=".service.NLService"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+        <receiver
+            android:name=".receiver.ReBootReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="ReBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Build;
+import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
@@ -21,7 +22,7 @@ import io.mon.noticationbox.sqlite.DatabaseHelper;
 import io.mon.noticationbox.util.NotificationB;
 
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class NotificationListenerService extends android.service.notification.NotificationListenerService {
+public class NLService extends NotificationListenerService {
     private ArrayList<String> notiarray = new ArrayList<String>();
     private String TAG = this.getClass().getSimpleName();
     private NLServiceReceiver nlservicereciver;
@@ -30,6 +31,7 @@ public class NotificationListenerService extends android.service.notification.No
     @Override
     public void onCreate() {
         super.onCreate();
+        System.out.println("Service Running");
         nlservicereciver = new NLServiceReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(getPackageName() + ".NOTIFICATION_LISTENER_SERVICE_EXAMPLE");
@@ -65,7 +67,7 @@ public class NotificationListenerService extends android.service.notification.No
                     try {
                         myDbHelper.ExcuseData("insert into notimanager values('" + sbn.getId() + "','" + sbn.getPackageName() + "','" + sbn.getNotification().extras.getCharSequence(Notification.EXTRA_TITLE).toString() + "','" + sbn.getNotification().extras.getCharSequence(Notification.EXTRA_TEXT).toString() + "','" + sbn.getPostTime() + "')");
                         arrayList.add(sbn.getNotification().contentIntent);
-                        NotificationListenerService.this.cancelNotification(sbn.getKey());
+                        NLService.this.cancelNotification(sbn.getKey());
                         NotificationB.createNotification(getApplicationContext());
                     } catch (Exception e) {
                     }
@@ -113,13 +115,13 @@ public class NotificationListenerService extends android.service.notification.No
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getStringExtra("command").equals("clearall")) {
-                NotificationListenerService.this.cancelAllNotifications();
+                NLService.this.cancelAllNotifications();
             } else if (intent.getStringExtra("command").equals("list")) {
                 Intent i1 = new Intent(getPackageName() + ".NOTIFICATION_LISTENER_EXAMPLE");
                 i1.putExtra("notification_event", "=====================");
                 sendBroadcast(i1);
                 int i = 1;
-                for (StatusBarNotification sbn : NotificationListenerService.this.getActiveNotifications()) {
+                for (StatusBarNotification sbn : NLService.this.getActiveNotifications()) {
                     Intent i2 = new Intent(getPackageName() + ".NOTIFICATION_LISTENER_EXAMPLE");
                     i2.putExtra("notification_event", i + " " + sbn.getPackageName() + "\n");
                     sendBroadcast(i2);

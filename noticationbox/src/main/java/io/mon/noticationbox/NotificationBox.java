@@ -1,6 +1,7 @@
 package io.mon.noticationbox;
 
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -9,6 +10,7 @@ import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -25,12 +27,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.mon.noticationbox.activity.NoticationActivity;
 import io.mon.noticationbox.adapter.AppInstalledAdapter;
 import io.mon.noticationbox.adapter.NoticationManagerAdapter;
 import io.mon.noticationbox.interface_mon.inNotificationBox;
 import io.mon.noticationbox.objects.Items_app;
 import io.mon.noticationbox.objects.Items_notification;
-import io.mon.noticationbox.service.NotificationListenerService;
+import io.mon.noticationbox.service.NLService;
 import io.mon.noticationbox.sqlite.DatabaseHelper;
 import io.mon.noticationbox.util.NotificationB;
 
@@ -54,6 +57,7 @@ public class NotificationBox extends RelativeLayout implements inNotificationBox
     private ImageView btnNoti;
     private ImageView btnAppNoti;
     private ArrayList<Items_app> arrayapp;
+    private ImageView btnback;
     ;
 
     public NotificationBox(Context context) {
@@ -85,11 +89,13 @@ public class NotificationBox extends RelativeLayout implements inNotificationBox
         }
         TypedArray attr = getContext().obtainStyledAttributes(attrs, R.styleable.noticationbox);
         boolean showbackpress = attr.getBoolean(R.styleable.noticationbox_ShowBackPress, false);
+
         views = mInflater.inflate(R.layout.layout_notication_box, this, true);
         gr_data = (GridView) views.findViewById(R.id.gr_data);
         btnDelete = (ImageView) views.findViewById(R.id.btnDelete);
         btnNoti = (ImageView) views.findViewById(R.id.btnNoti);
         btnAppNoti = (ImageView) views.findViewById(R.id.btnAppNoti);
+        btnback = (ImageView) views.findViewById(R.id.btnback);
         layout_content = (LinearLayout) views.findViewById(R.id.layout_content);
         notibox = (LinearLayout) views.findViewById(R.id.notibox);
         btnDelete.setVisibility(View.GONE);
@@ -107,25 +113,17 @@ public class NotificationBox extends RelativeLayout implements inNotificationBox
                 notibox.setVisibility(GONE);
             }
         });
-        gr_data.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                DatabaseHelper myDbHelper = new DatabaseHelper(getContext());
-                try {
-                    myDbHelper.openDataBase();
-                    Cursor c = myDbHelper.query("SELECT * FROM appblocknoti WHERE package like '%" + arrayapp.get(i).getPackage() + "%'   LIMIT 0, 50");
-                    if (c.getCount() <= 0) {
-                        myDbHelper.ExcuseData("insert into appblocknoti values('" + arrayapp.get(i).getPackage().toString() + "')");
-                    } else {
-                        myDbHelper.ExcuseData("delete from appblocknoti where package='" + arrayapp.get(i).getPackage().toString() + "'");
-                    }
-                    myDbHelper.close();
-                    requestData();
-                } catch (SQLException sqle) {
-                    throw sqle;
-                }
-            }
-        });
+        if (showbackpress == false) {
+            btnback.setVisibility(GONE);
+        }
+        ComponentName cn = new ComponentName(context, NLService.class);
+        String flat = Settings.Secure.getString(context.getContentResolver(), "enabled_notification_listeners");
+        final boolean enabled = flat != null && flat.contains(cn.flattenToString());
+        if (!enabled) {
+            Intent intent = new Intent(context, NoticationActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
     }
 
     private void getApp() {
@@ -153,6 +151,25 @@ public class NotificationBox extends RelativeLayout implements inNotificationBox
         }
         appInstalledAdapter = new AppInstalledAdapter(getContext(), R.layout.layout_app_installed, arrayapp);
         gr_data.setAdapter(appInstalledAdapter);
+        gr_data.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                DatabaseHelper myDbHelper = new DatabaseHelper(getContext());
+                try {
+                    myDbHelper.openDataBase();
+                    Cursor c = myDbHelper.query("SELECT * FROM appblocknoti WHERE package like '%" + arrayapp.get(i).getPackage() + "%'   LIMIT 0, 50");
+                    if (c.getCount() <= 0) {
+                        myDbHelper.ExcuseData("insert into appblocknoti values('" + arrayapp.get(i).getPackage().toString() + "')");
+                    } else {
+                        myDbHelper.ExcuseData("delete from appblocknoti where package='" + arrayapp.get(i).getPackage().toString() + "'");
+                    }
+                    myDbHelper.close();
+                    requestData();
+                } catch (SQLException sqle) {
+                    throw sqle;
+                }
+            }
+        });
 
     }
 
@@ -189,7 +206,7 @@ public class NotificationBox extends RelativeLayout implements inNotificationBox
                 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    ArrayList<PendingIntent> p = NotificationListenerService.getArray();
+                    ArrayList<PendingIntent> p = NLService.getArray();
                     try {
                         PendingIntent pIntent = p.get(i);
                         if (pIntent != null) {
@@ -201,7 +218,7 @@ public class NotificationBox extends RelativeLayout implements inNotificationBox
                                     myDbHelper.ExcuseData("delete from notimanager where id='" + arrayList.get(i).getId() + "'");
                                     myDbHelper.close();
                                     adapter.remove(adapter.getItem(i));
-                                    NotificationListenerService.removeArray(i);
+                                    NLService.removeArray(i);
                                     adapter.notifyDataSetChanged();
                                     NotificationB.createNotification(getContext());
                                     if (adapter.getCount() == 0) {
@@ -216,7 +233,7 @@ public class NotificationBox extends RelativeLayout implements inNotificationBox
                             }
                         } else {
                             adapter.remove(adapter.getItem(i));
-                            NotificationListenerService.removeArray(i);
+                            NLService.removeArray(i);
                             adapter.notifyDataSetChanged();
                             if (adapter.getCount() == 0) {
                                 NotificationB.cancelNotification(context);
@@ -233,7 +250,7 @@ public class NotificationBox extends RelativeLayout implements inNotificationBox
                         adapter.remove(adapter.getItem(i));
 
                         try {
-                            NotificationListenerService.removeArray(i);
+                            NLService.removeArray(i);
                         } catch (Exception ex) {
                         }
                         NotificationB.createNotification(getContext());
@@ -253,4 +270,14 @@ public class NotificationBox extends RelativeLayout implements inNotificationBox
 
     }
 
+    @Override
+    public void Build() {
+        Intent intent = new Intent(context, NLService.class);
+        context.startService(intent);
+    }
+
+    @Override
+    public void OnbackPress(OnClickListener Onclick) {
+        btnback.setOnClickListener(Onclick);
+    }
 }
