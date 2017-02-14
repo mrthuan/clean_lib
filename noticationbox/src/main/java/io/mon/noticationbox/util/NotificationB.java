@@ -16,6 +16,7 @@ import java.util.Date;
 
 import io.mon.noticationbox.R;
 import io.mon.noticationbox.activity.NoticationActivity;
+import io.mon.noticationbox.activity.ViewNotificationActivity;
 import io.mon.noticationbox.service.NLService;
 
 /**
@@ -47,7 +48,7 @@ public class NotificationB {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         String currentDateandTime = sdf.format(new Date());
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.layout_notication);
-        Intent settingIntent = new Intent(context, NoticationActivity.class);
+        Intent settingIntent = new Intent(context, ViewNotificationActivity.class);
         contentView.setOnClickPendingIntent(R.id.btnSettings, PendingIntent.getActivity(context, 4, settingIntent, 0));
         contentView.setTextViewText(R.id.tvCount, String.valueOf(NLService.getArray().size()));
         contentView.setTextViewText(R.id.tvTime, String.valueOf(currentDateandTime));

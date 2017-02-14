@@ -99,6 +99,7 @@ public class NotificationBox extends RelativeLayout implements inNotificationBox
         layout_content = (LinearLayout) views.findViewById(R.id.layout_content);
         notibox = (LinearLayout) views.findViewById(R.id.notibox);
         btnDelete.setVisibility(View.GONE);
+        getNotiUnRead();
         btnNoti.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,6 +125,23 @@ public class NotificationBox extends RelativeLayout implements inNotificationBox
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }
+        btnDelete.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    NotificationB.createNotification(context);
+                    DatabaseHelper myDbHelper = new DatabaseHelper(context);
+                    myDbHelper.openDataBase();
+                    myDbHelper.ExcuseData("delete from notimanager");
+                    myDbHelper.close();
+                    NLService.removeAllItem();
+                    getData();
+                    btnDelete.setVisibility(View.GONE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void getApp() {
@@ -234,11 +252,15 @@ public class NotificationBox extends RelativeLayout implements inNotificationBox
                         } else {
                             adapter.remove(adapter.getItem(i));
                             NLService.removeArray(i);
+                            myDbHelper.openDataBase();
+                            myDbHelper.ExcuseData("delete from notimanager where id='" + arrayList.get(i).getId() + "'");
+                            myDbHelper.close();
                             adapter.notifyDataSetChanged();
                             if (adapter.getCount() == 0) {
                                 NotificationB.cancelNotification(context);
                                 btnDelete.setVisibility(View.GONE);
                                 notibox.setVisibility(View.VISIBLE);
+
                             }
                             NotificationB.createNotification(getContext());
                         }
