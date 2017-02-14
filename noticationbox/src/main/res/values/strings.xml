@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">NoticationBox</string>
+    <string name="str_notiboxx">notifications</string>
+    <string name="str_androidsystem">Android Notification</string>
+    <string name="youhave">You have</string>
+    <string name="str_notibox">No unread notifications</string>
+    <string name="str_notiboxtitle">Notification Box</string>
+</resources>

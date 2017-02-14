@@ -1,0 +1,15 @@
+package io.mon.noticationbox.activity;
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+import io.mon.noticationbox.R;
+
+public class NoticationActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_notication);
+    }
+}

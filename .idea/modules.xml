@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/MonLib.iml" filepath="$PROJECT_DIR$/MonLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/deviceinfo/deviceinfo.iml" filepath="$PROJECT_DIR$/deviceinfo/deviceinfo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/noticationbox/noticationbox.iml" filepath="$PROJECT_DIR$/noticationbox/noticationbox.iml" />
     </modules>
   </component>
 </project>
