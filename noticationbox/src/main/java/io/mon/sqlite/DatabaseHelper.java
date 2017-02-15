@@ -1,4 +1,4 @@
-package io.mon.noticationbox.sqlite;
+package io.mon.sqlite;
 
 import android.content.Context;
 import android.database.Cursor;

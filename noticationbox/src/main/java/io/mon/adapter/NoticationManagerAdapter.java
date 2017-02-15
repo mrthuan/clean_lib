@@ -1,4 +1,4 @@
-package io.mon.noticationbox.adapter;
+package io.mon.adapter;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 import io.mon.noticationbox.R;
-import io.mon.noticationbox.objects.Items_notification;
+import io.mon.objects.Items_notification;
 
 /**
  * Created by son-tu on 7/10/2016.

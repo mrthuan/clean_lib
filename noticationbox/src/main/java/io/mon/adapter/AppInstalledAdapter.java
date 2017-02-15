@@ -1,4 +1,4 @@
-package io.mon.noticationbox.adapter;
+package io.mon.adapter;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -16,8 +16,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import io.mon.noticationbox.R;
-import io.mon.noticationbox.objects.Items_app;
-import io.mon.noticationbox.sqlite.DatabaseHelper;
+import io.mon.objects.Items_app;
+import io.mon.sqlite.DatabaseHelper;
 
 /**
  * Created by son-tu on 7/10/2016.

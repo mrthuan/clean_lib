@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import es.dmoral.prefs.Prefs;
-import io.mon.noticationbox.NotificationBox;
+import io.mon.NotificationBox;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package io.mon.noticationbox.activity;
+package io.mon.activity;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import io.mon.noticationbox.R;
-import io.mon.noticationbox.service.NLService;
+import io.mon.service.NLService;
 
 public class NoticationActivity extends Activity {
     Handler handler = new Handler();

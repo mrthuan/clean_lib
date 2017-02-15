@@ -1,4 +1,4 @@
-package io.mon.noticationbox.util;
+package io.mon.util;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -15,9 +15,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import io.mon.noticationbox.R;
-import io.mon.noticationbox.activity.NoticationActivity;
-import io.mon.noticationbox.activity.ViewNotificationActivity;
-import io.mon.noticationbox.service.NLService;
+import io.mon.activity.NoticationActivity;
+import io.mon.activity.ViewNotificationActivity;
+import io.mon.service.NLService;
 
 /**
  * Created by Son on 2/10/2017.

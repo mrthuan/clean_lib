@@ -1,4 +1,4 @@
-package io.mon.noticationbox.interface_mon;
+package io.mon.interface_mon;
 
 import android.view.View;
 

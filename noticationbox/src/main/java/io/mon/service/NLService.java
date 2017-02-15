@@ -1,4 +1,4 @@
-package io.mon.noticationbox.service;
+package io.mon.service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -18,8 +18,8 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import es.dmoral.prefs.Prefs;
-import io.mon.noticationbox.sqlite.DatabaseHelper;
-import io.mon.noticationbox.util.NotificationB;
+import io.mon.sqlite.DatabaseHelper;
+import io.mon.util.NotificationB;
 
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class NLService extends NotificationListenerService {

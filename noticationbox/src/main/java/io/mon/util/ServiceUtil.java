@@ -1,4 +1,4 @@
-package io.mon.noticationbox.util;
+package io.mon.util;
 
 import android.app.ActivityManager;
 import android.content.Context;

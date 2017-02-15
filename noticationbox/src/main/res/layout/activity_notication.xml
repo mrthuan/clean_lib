@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#606060"
     android:orientation="vertical"
-    tools:context="io.mon.noticationbox.activity.NoticationActivity">
+    tools:context="io.mon.activity.NoticationActivity">
 
     <TextView
         android:layout_width="match_parent"

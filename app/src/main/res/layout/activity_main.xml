@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context="mon.io.lib.MainActivity">
 
-    <io.mon.noticationbox.NotificationBox
+    <io.mon.NotificationBox
         android:id="@+id/notificationBox"
         app:ShowBackPress="false"
         android:layout_width="match_parent"

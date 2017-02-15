@@ -1,11 +1,11 @@
-package io.mon.noticationbox.receiver;
+package io.mon.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import io.mon.noticationbox.service.NLService;
-import io.mon.noticationbox.util.ServiceUtil;
+import io.mon.service.NLService;
+import io.mon.util.ServiceUtil;
 
 /**
  * Created by trungkientn on 10/28/16.

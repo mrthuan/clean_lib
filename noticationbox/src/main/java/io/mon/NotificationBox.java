@@ -1,4 +1,4 @@
-package io.mon.noticationbox;
+package io.mon;
 
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -27,15 +27,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.mon.noticationbox.activity.NoticationActivity;
-import io.mon.noticationbox.adapter.AppInstalledAdapter;
-import io.mon.noticationbox.adapter.NoticationManagerAdapter;
-import io.mon.noticationbox.interface_mon.inNotificationBox;
-import io.mon.noticationbox.objects.Items_app;
-import io.mon.noticationbox.objects.Items_notification;
-import io.mon.noticationbox.service.NLService;
-import io.mon.noticationbox.sqlite.DatabaseHelper;
-import io.mon.noticationbox.util.NotificationB;
+import io.mon.noticationbox.R;
+import io.mon.activity.NoticationActivity;
+import io.mon.adapter.AppInstalledAdapter;
+import io.mon.adapter.NoticationManagerAdapter;
+import io.mon.interface_mon.inNotificationBox;
+import io.mon.objects.Items_app;
+import io.mon.objects.Items_notification;
+import io.mon.service.NLService;
+import io.mon.sqlite.DatabaseHelper;
+import io.mon.util.NotificationB;
 
 /**
  * Created by Son on 1/14/2017.
